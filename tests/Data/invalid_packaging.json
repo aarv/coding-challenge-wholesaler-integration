@@ -1,0 +1,15 @@
+{
+  "data": [
+    {
+      "PRODUCT_IDENTIFIER": "12345600001",
+      "EAN_CODE_GTIN": "24880602029766",
+      "BRAND": "Drinks Corp.",
+      "NAME": "Soda Drink, 12x 1L",
+      "PACKAGE": "jutebeutel",
+      "ADDITIONAL_INFO": "",
+      "VESSEL": "bottle",
+      "LITERS_PER_BOTTLE": "1",
+      "BOTTLE_AMOUNT": "12"
+    }
+  ]
+}

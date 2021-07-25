@@ -1,0 +1,15 @@
+version: '3.5'
+services:
+    app:
+        build:
+            context: ./
+            dockerfile: dockerfile
+        working_dir: /var/www/kollex
+        volumes:
+            - ./:/var/www/kollex
+        networks:
+            - kollex
+networks:
+  kollex:
+        driver: bridge
+        name: kollex

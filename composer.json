@@ -6,11 +6,33 @@
       "Kollex\\": "src/"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "Kollex\\Test\\": "tests/"
+    }
+  },
   "require": {
-    "php": ">=7.0"
+    "php": ">=8.0"
   },
   "require-dev": {
+    "friendsofphp/php-cs-fixer": "^2.18",
+    "overtrue/phplint": "^2.3",
+    "phpstan/phpstan": "^0.12",
+    "phpunit/phpunit": "^9.5"
   },
-  "suggest": {
+  "config": {
+    "optimize-autoloader": true,
+    "preferred-install": {
+      "*": "dist"
+    },
+    "sort-packages": true
+  },
+  "scripts": {
+    "stan": "vendor/bin/phpstan analyse -c phpstan.neon --no-progress src/",
+    "lint": "vendor/bin/phplint",
+    "cs": "vendor/bin/php-cs-fixer fix --dry-run --config=.php_cs --diff --using-cache=no --diff-format udiff --allow-risky=yes --ansi src/",
+    "cs-fix": "vendor/bin/php-cs-fixer fix --config=.php_cs --allow-risky=yes src/",
+    "test": "vendor/bin/phpunit --testdox",
+    "ci": ["@lint", "@stan", "@cs", "@test"]
   }
 }

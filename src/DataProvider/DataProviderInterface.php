@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Kollex\DataProvider;
 
-use Kollex\Assortment\ProductInterface;
+use Kollex\Assortment\Model\ProductInterface;
 
 interface DataProviderInterface
 {

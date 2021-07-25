@@ -1,0 +1,18 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Kollex\Assortment\Model;
+
+class Manufacturer
+{
+    public function __construct(
+        private string $name
+    ) {
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+}
