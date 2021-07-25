@@ -3,7 +3,7 @@ by Andrés Romero Valiente
 
 ## Approach
 My approach is more or less minimalistic. Actually it is a library that can be implemented in other applications. It has only one
-service containing one facade method.
+service containing one facade method as entry point.
 
 ## Dependencies
 To keep them as minimal as possible I only use PHP8. `phpunit`,`phpstan`,`phplint` and `php-cs-fixer` are for testing and static code analysing purposes only and are not required in
@@ -11,7 +11,7 @@ production environments.
 
 ## Setup
 - Setup/start container: `docker-compose up -d`
-- Loggin to container: `docker-compose exec app bash`
+- Login to container: `docker-compose exec app bash`
 - Install composer/vendor packages: `composer install --prefer-dist`
 
 ## Run test app
