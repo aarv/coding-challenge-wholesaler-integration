@@ -11,7 +11,7 @@ production environments.
 
 ## Setup
 - Setup/start container: `docker-compose up -d`
-- Login in container: `docker-compose exec app bash`
+- Loggin to container: `docker-compose exec app bash`
 - Install composer/vendor packages: `composer install --prefer-dist`
 
 ## Run test app
@@ -30,7 +30,7 @@ DataProviderInterface has only one new method: `toArray()`
 Here you find strategies for reading both, JSON and CSV formats(New ones can easily be added). 
 
 ## Further thoughts / TBD / TODOS
-- There are valid arguments to not create manufacturer and packaging instances. (KISS/Performance vs data consistency).
+- There are valid arguments to not create unit and packaging instances. (KISS/Performance vs data consistency).
   This truly can/should be discussed.
 - Regarding the DataProvider structure it is possible to get rid of `DataProviderInterface` and instead moved the
 abstraction to `BaseDataProvider` and make this class abstract.

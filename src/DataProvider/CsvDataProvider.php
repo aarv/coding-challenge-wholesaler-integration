@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Kollex\DataProvider;
 
 use Kollex\Assortment\Model\BaseProductUnit;
-use Kollex\Assortment\Model\Manufacturer;
 use Kollex\Assortment\Model\Product;
 use Kollex\Assortment\Model\ProductInterface;
 use Kollex\Exception\InvalidDataException;
@@ -62,7 +61,7 @@ class CsvDataProvider extends BaseDataProvider implements DataProviderInterface
             return new Product(
                 id: $row[0],
                 gtin: $row[1],
-                manufacturer: new Manufacturer($row[2]),
+                manufacturer: $row[2],
                 name: $row[3],
                 packaging: $this->getPackaging($row[5], $class),
                 baseProductPackaging: $this->getBaseProductPackaging($row[7], $class),

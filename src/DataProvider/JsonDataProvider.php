@@ -3,7 +3,6 @@
 namespace Kollex\DataProvider;
 
 use Kollex\Assortment\Model\BaseProductUnit;
-use Kollex\Assortment\Model\Manufacturer;
 use Kollex\Assortment\Model\Product;
 use Kollex\Assortment\Model\ProductInterface;
 use Kollex\Exception\InvalidDataException;
@@ -44,7 +43,7 @@ class JsonDataProvider extends BaseDataProvider implements DataProviderInterface
             return new Product(
                 id: $record['PRODUCT_IDENTIFIER'],
                 gtin: $record['EAN_CODE_GTIN'],
-                manufacturer: new Manufacturer($record['BRAND']),
+                manufacturer: $record['BRAND'],
                 name: $record['NAME'],
                 packaging: $this->getPackaging($record['PACKAGE'], $class),
                 baseProductPackaging: $this->getBaseProductPackaging($record['VESSEL'], $class),

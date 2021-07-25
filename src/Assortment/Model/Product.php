@@ -9,7 +9,7 @@ class Product implements ProductInterface
     public function __construct(
         private string $id,
         private string $gtin,
-        private Manufacturer $manufacturer,
+        private string $manufacturer,
         private string $name,
         private Packaging $packaging,
         private BaseProductPackaging $baseProductPackaging,
@@ -31,7 +31,7 @@ class Product implements ProductInterface
 
     public function getManufacturer(): string
     {
-        return $this->manufacturer->getName();
+        return $this->manufacturer;
     }
 
     public function getName(): string
