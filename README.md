@@ -36,5 +36,5 @@ Here you find strategies for reading both, JSON and CSV formats(New ones can eas
 abstraction to `BaseDataProvider` and make this class abstract.
 - Adding a Logger would be in a real world application essential to retrace why and which records might be skipped. In this case the logger should be injected 
 to the Service.
-- The validation of the source files is rudimentary. It would make sense to valid also the structure of the files (e.g. CSV: Amount of columns, JSON: Structure)
+- The validation of the source files is rudimentary. It would make sense to validate also the structure of the files (e.g. CSV: Amount of columns, JSON: Structure)
    
