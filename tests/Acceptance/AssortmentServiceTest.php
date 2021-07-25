@@ -16,7 +16,7 @@ class AssortmentServiceTest extends TestCase
     {
         parent::setUp();
 
-        $this->service = new AssortmentService(new SourceFileValidator());
+        $this->service = new AssortmentService(new SourceFileValidator(), $this->createMock('\Psr\Log\LoggerInterface'));
     }
 
     public function testHasValidOutputWithJsonSource(): void

@@ -6,8 +6,9 @@ My approach is more or less minimalistic. Actually it is a library that can be i
 service containing one facade method as entry point.
 
 ## Dependencies
-To keep them as minimal as possible I only use `PHP8`. `phpunit`,`phpstan`,`phplint` and `php-cs-fixer` are for testing and static code analysing purposes only and are not required in
-production environments.    
+To keep them as minimal as possible only`PHP8` is required for production. `monolog`, `phpunit`,`phpstan`,`phplint` and `php-cs-fixer` are for testing and static code analysing purposes only and are not required in
+production environments. Regarding the logger you might prefer to use the same logger of the application. That's why it needs to be injected into the service.
+Regarding the validator I follow a similar approach. The application using the service could use an own validator. It only needs to satisfy the interface.
 
 ## Setup
 - Setup/start container: `docker-compose up -d`
@@ -34,7 +35,5 @@ Here you find strategies for reading both, JSON and CSV formats (new ones can ea
   This truly can/should be discussed.
 - Regarding the DataProvider structure it is possible to get rid of `DataProviderInterface` and instead move the
 abstraction to `BaseDataProvider` and make this class abstract.
-- Adding a logger would be in a real-world application essential to retrace why and which records might be skipped. In this case the logger should be injected 
-to the service.
 - The validation of the source files is rudimentary. It would make sense to validate also the structure of the files (e.g. CSV: Amount of columns, JSON: Structure).
    

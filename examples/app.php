@@ -8,7 +8,10 @@ require __DIR__ . '/../vendor/autoload.php';
 $file = (string) $argv[1];
 
 $validator = new \Kollex\Validator\SourceFileValidator();
-$service = new \Kollex\Service\AssortmentService($validator);
+$logger = new \Monolog\Logger('assortment-service');
+$logger->pushHandler(new \Monolog\Handler\StreamHandler('/var/log/assortment-service/warning.log', \Monolog\Logger::WARNING));
+
+$service = new \Kollex\Service\AssortmentService($validator, $logger);
 
 echo $service->getProducts($file);
 

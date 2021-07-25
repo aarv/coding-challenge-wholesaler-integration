@@ -9,11 +9,13 @@ use Kollex\DataProvider\DataProviderInterface;
 use Kollex\DataProvider\JsonDataProvider;
 use Kollex\Exception\InvalidSourceException;
 use Kollex\Validator\SourceFileValidatorInterface;
+use Psr\Log\LoggerInterface;
 
 class AssortmentService
 {
     public function __construct(
-        private SourceFileValidatorInterface $validator
+        private SourceFileValidatorInterface $validator,
+        private LoggerInterface $logger
     ) {
     }
 
@@ -38,10 +40,10 @@ class AssortmentService
 
         switch ($extension) {
             case 'csv':
-                return new CsvDataProvider($source);
+                return new CsvDataProvider($source, $this->logger);
 
             case 'json':
-                return new JsonDataProvider($source);
+                return new JsonDataProvider($source, $this->logger);
 
             default:
                 throw new InvalidSourceException(SourceFileValidatorInterface::INVALID_EXTENSION_MESSAGE);

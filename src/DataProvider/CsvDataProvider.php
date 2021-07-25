@@ -24,6 +24,7 @@ class CsvDataProvider extends BaseDataProvider implements DataProviderInterface
     protected const UNIT_TYPE_GRAM = 'g'; // TODO: verify
 
     private const CSV_SEPARATOR = ';';
+    private const WARNING_LOG_SKIPPED_RECORD = 'Skipped CSV record';
 
     private bool $ignoreFirstLine = true;
 
@@ -43,7 +44,7 @@ class CsvDataProvider extends BaseDataProvider implements DataProviderInterface
                 continue;
             }
 
-            if ($product = $this->createProduct($row)) {
+            if ($product = $this->createProduct($row, $currentLine)) {
                 $products[] = $product;
             }
         }
@@ -53,7 +54,7 @@ class CsvDataProvider extends BaseDataProvider implements DataProviderInterface
         return $products;
     }
 
-    private function createProduct(array $row): ?ProductInterface
+    private function createProduct(array $row, int $currentLine): ?ProductInterface
     {
         try {
             $class = static::class;
@@ -70,7 +71,14 @@ class CsvDataProvider extends BaseDataProvider implements DataProviderInterface
                 baseProductQuantity: (int) $row[9],
             );
         } catch (InvalidDataException) {
-            // TODO: log exception(add row).
+            $this->logger->warning(
+                self::WARNING_LOG_SKIPPED_RECORD,
+                [
+                    'file' => $this->file,
+                    'item' => $currentLine,
+                    'payload' => $row,
+                ]
+            );
         }
 
         return null;

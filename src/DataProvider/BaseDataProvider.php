@@ -7,11 +7,13 @@ namespace Kollex\DataProvider;
 use Kollex\Assortment\Model\BaseProductPackaging;
 use Kollex\Assortment\Model\Packaging;
 use Kollex\Exception\InvalidDataException;
+use Psr\Log\LoggerInterface;
 
 class BaseDataProvider
 {
     public function __construct(
-        protected string $file
+        protected string $file,
+        protected LoggerInterface $logger
     ) {
     }
 

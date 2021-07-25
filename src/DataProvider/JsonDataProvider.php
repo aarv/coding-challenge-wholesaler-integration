@@ -18,6 +18,8 @@ class JsonDataProvider extends BaseDataProvider implements DataProviderInterface
     protected const BASE_PRODUCT_PACKAGING_TYPE_CAN = 'CAN';
     protected const BASE_PRODUCT_PACKAGING_TYPE_BOTTLE = 'BOTTLE';
 
+    private const WARNING_LOG_SKIPPED_RECORD = 'Skipped JSON record';
+
     /**
      * @return ProductInterface[]
      */
@@ -26,8 +28,8 @@ class JsonDataProvider extends BaseDataProvider implements DataProviderInterface
         $json = json_decode(file_get_contents($this->file), true, 512, JSON_THROW_ON_ERROR);
         $products = [];
 
-        foreach ($json['data'] as $record) {
-            if ($product = $this->createProduct($record)) {
+        foreach ($json['data'] as $i => $record) {
+            if ($product = $this->createProduct($record, $i)) {
                 $products[] = $product;
             }
         }
@@ -35,7 +37,7 @@ class JsonDataProvider extends BaseDataProvider implements DataProviderInterface
         return $products;
     }
 
-    private function createProduct(array $record): ?ProductInterface
+    private function createProduct(array $record, int $item): ?ProductInterface
     {
         try {
             $class = static::class;
@@ -52,7 +54,14 @@ class JsonDataProvider extends BaseDataProvider implements DataProviderInterface
                 baseProductQuantity: (int) $record['BOTTLE_AMOUNT'],
             );
         } catch (InvalidDataException) {
-            // TODO: log exception(add row).
+            $this->logger->warning(
+                self::WARNING_LOG_SKIPPED_RECORD,
+                [
+                    'file' => $this->file,
+                    'item' => $item,
+                    'payload' => $record,
+                ]
+            );
         }
 
         return null;

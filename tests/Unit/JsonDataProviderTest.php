@@ -15,7 +15,11 @@ class JsonDataProviderTest extends TestCase
 {
     public function testCanCreateValidProducts(): void
     {
-        $provider = new JsonDataProvider(__DIR__ . '/../Data/all_valid.json');
+        $provider = new JsonDataProvider(
+            __DIR__ . '/../Data/all_valid.json',
+            $this->createMock('\Psr\Log\LoggerInterface')
+        );
+
         $products = $provider->getProducts();
 
         self::assertCount(4, $products);
@@ -37,7 +41,11 @@ class JsonDataProviderTest extends TestCase
 
     public function testCanCreateValidProductsWithGaps(): void
     {
-        $provider = new JsonDataProvider(__DIR__ . '/../Data/not_all_valid.json');
+        $provider = new JsonDataProvider(
+            __DIR__ . '/../Data/not_all_valid.json',
+            $this->createMock('\Psr\Log\LoggerInterface')
+        );
+
         $products = $provider->getProducts();
 
         self::assertCount(3, $products);
@@ -45,7 +53,11 @@ class JsonDataProviderTest extends TestCase
 
     public function testCanNotCreateProductWithInvalidPackaging(): void
     {
-        $provider = new JsonDataProvider(__DIR__ . '/../Data/invalid_packaging.json');
+        $provider = new JsonDataProvider(
+            __DIR__ . '/../Data/invalid_packaging.json',
+            $this->createMock('\Psr\Log\LoggerInterface')
+        );
+
         $products = $provider->getProducts();
 
         self::assertCount(0, $products);
@@ -53,15 +65,21 @@ class JsonDataProviderTest extends TestCase
 
     public function testCanNotCreateProductWithInvalidBaseProductPackaging(): void
     {
-        $provider = new JsonDataProvider(__DIR__ . '/../Data/invalid_base_product_packaging.json');
+        $provider = new JsonDataProvider(
+            __DIR__ . '/../Data/invalid_base_product_packaging.json',
+            $this->createMock('\Psr\Log\LoggerInterface')
+        );
         $products = $provider->getProducts();
 
         self::assertCount(0, $products);
     }
 
-    public function testProductQuantityHasValidFloatFormat():void
+    public function testProductQuantityHasValidFloatFormat(): void
     {
-        $provider = new JsonDataProvider(__DIR__ . '/../Data/all_valid.json');
+        $provider = new JsonDataProvider(
+            __DIR__ . '/../Data/all_valid.json',
+            $this->createMock('\Psr\Log\LoggerInterface')
+        );
 
         /** @var Product $product */
         $product = $provider->getProducts()[3];
