@@ -10,16 +10,22 @@ use Kollex\Assortment\Model\Packaging;
 use Kollex\Assortment\Model\Product;
 use Kollex\DataProvider\CsvDataProvider;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 
 class CsvDataProviderTest extends TestCase
 {
+    private LoggerInterface $loggerMock;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->loggerMock = $this->createMock('\Psr\Log\LoggerInterface');
+    }
+
     public function testCanCreateValidProducts(): void
     {
-        $provider = new CsvDataProvider(
-            __DIR__ . '/../Data/all_valid.csv',
-            $this->createMock('\Psr\Log\LoggerInterface')
-        );
-
+        $provider = new CsvDataProvider(__DIR__ . '/../Data/all_valid.csv', $this->loggerMock);
         $products = $provider->getProducts();
 
         self::assertCount(3, $products);
@@ -41,11 +47,7 @@ class CsvDataProviderTest extends TestCase
 
     public function testCanCreateValidProductsWithGaps(): void
     {
-        $provider = new CsvDataProvider(
-            __DIR__ . '/../Data/not_all_valid.csv',
-            $this->createMock('\Psr\Log\LoggerInterface')
-        );
-
+        $provider = new CsvDataProvider(__DIR__ . '/../Data/not_all_valid.csv', $this->loggerMock);
         $products = $provider->getProducts();
 
         self::assertCount(3, $products);
@@ -53,10 +55,7 @@ class CsvDataProviderTest extends TestCase
 
     public function testCanNotCreateProductWithInvalidPackaging(): void
     {
-        $provider = new CsvDataProvider(
-            __DIR__ . '/../Data/invalid_packaging.csv',
-            $this->createMock('\Psr\Log\LoggerInterface')
-        );
+        $provider = new CsvDataProvider(__DIR__ . '/../Data/invalid_packaging.csv', $this->loggerMock);
         $products = $provider->getProducts();
 
         self::assertCount(0, $products);
@@ -64,11 +63,7 @@ class CsvDataProviderTest extends TestCase
 
     public function testCanNotCreateProductWithInvalidBaseProductPackaging(): void
     {
-        $provider = new CsvDataProvider(
-            __DIR__ . '/../Data/invalid_base_product_packaging.csv',
-            $this->createMock('\Psr\Log\LoggerInterface')
-        );
-
+        $provider = new CsvDataProvider(__DIR__ . '/../Data/invalid_base_product_packaging.csv', $this->loggerMock);
         $products = $provider->getProducts();
 
         self::assertCount(0, $products);
@@ -76,11 +71,7 @@ class CsvDataProviderTest extends TestCase
 
     public function testCanNotCreateProductWithInvalidBaseProductUnit(): void
     {
-        $provider = new CsvDataProvider(
-            __DIR__ . '/../Data/invalid_base_product_unit.csv',
-            $this->createMock('\Psr\Log\LoggerInterface')
-        );
-
+        $provider = new CsvDataProvider(__DIR__ . '/../Data/invalid_base_product_unit.csv', $this->loggerMock);
         $products = $provider->getProducts();
 
         self::assertCount(0, $products);

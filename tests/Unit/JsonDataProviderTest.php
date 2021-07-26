@@ -10,15 +10,22 @@ use Kollex\Assortment\Model\Packaging;
 use Kollex\Assortment\Model\Product;
 use Kollex\DataProvider\JsonDataProvider;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 
 class JsonDataProviderTest extends TestCase
 {
+    private LoggerInterface $loggerMock;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->loggerMock = $this->createMock('\Psr\Log\LoggerInterface');
+    }
+
     public function testCanCreateValidProducts(): void
     {
-        $provider = new JsonDataProvider(
-            __DIR__ . '/../Data/all_valid.json',
-            $this->createMock('\Psr\Log\LoggerInterface')
-        );
+        $provider = new JsonDataProvider(__DIR__ . '/../Data/all_valid.json', $this->loggerMock);
 
         $products = $provider->getProducts();
 
@@ -41,11 +48,7 @@ class JsonDataProviderTest extends TestCase
 
     public function testCanCreateValidProductsWithGaps(): void
     {
-        $provider = new JsonDataProvider(
-            __DIR__ . '/../Data/not_all_valid.json',
-            $this->createMock('\Psr\Log\LoggerInterface')
-        );
-
+        $provider = new JsonDataProvider(__DIR__ . '/../Data/not_all_valid.json', $this->loggerMock);
         $products = $provider->getProducts();
 
         self::assertCount(3, $products);
@@ -53,11 +56,7 @@ class JsonDataProviderTest extends TestCase
 
     public function testCanNotCreateProductWithInvalidPackaging(): void
     {
-        $provider = new JsonDataProvider(
-            __DIR__ . '/../Data/invalid_packaging.json',
-            $this->createMock('\Psr\Log\LoggerInterface')
-        );
-
+        $provider = new JsonDataProvider(__DIR__ . '/../Data/invalid_packaging.json', $this->loggerMock);
         $products = $provider->getProducts();
 
         self::assertCount(0, $products);
@@ -65,10 +64,7 @@ class JsonDataProviderTest extends TestCase
 
     public function testCanNotCreateProductWithInvalidBaseProductPackaging(): void
     {
-        $provider = new JsonDataProvider(
-            __DIR__ . '/../Data/invalid_base_product_packaging.json',
-            $this->createMock('\Psr\Log\LoggerInterface')
-        );
+        $provider = new JsonDataProvider(__DIR__ . '/../Data/invalid_base_product_packaging.json', $this->loggerMock);
         $products = $provider->getProducts();
 
         self::assertCount(0, $products);
@@ -76,10 +72,7 @@ class JsonDataProviderTest extends TestCase
 
     public function testProductQuantityHasValidFloatFormat(): void
     {
-        $provider = new JsonDataProvider(
-            __DIR__ . '/../Data/all_valid.json',
-            $this->createMock('\Psr\Log\LoggerInterface')
-        );
+        $provider = new JsonDataProvider(__DIR__ . '/../Data/all_valid.json', $this->loggerMock);
 
         /** @var Product $product */
         $product = $provider->getProducts()[3];
