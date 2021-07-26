@@ -35,7 +35,7 @@ class AssortmentServiceTest extends TestCase
         self::assertEquals($expectedJson, $jsonOutput);
     }
 
-    private function getExpectedJson(string $file):string
+    private function getExpectedJson(string $file): string
     {
         $expectedJson = file_get_contents($file);
 

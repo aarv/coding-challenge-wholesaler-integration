@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Kollex\Test\Unit;
@@ -10,7 +11,6 @@ use PHPUnit\Framework\TestCase;
 
 class SourceFileValidatorTest extends TestCase
 {
-
     public function testValidatesInvalidSource(): void
     {
         $this->expectException(InvalidSourceException::class);
