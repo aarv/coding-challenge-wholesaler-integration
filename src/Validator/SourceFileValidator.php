@@ -6,6 +6,7 @@ namespace Kollex\Validator;
 
 use Kollex\DataProvider\CsvDataProvider;
 use Kollex\DataProvider\JsonDataProvider;
+use Kollex\Exception\InvalidMimeTypeException;
 use Kollex\Exception\InvalidSourceException;
 use Kollex\Utility\Assert;
 
@@ -27,12 +28,12 @@ class SourceFileValidator implements SourceFileValidatorInterface
     {
         switch (pathinfo($source, PATHINFO_EXTENSION)) {
             case 'csv':
-                $providerClass = CsvDataProvider::class;
+                $allowedMimeType = CsvDataProvider::VALID_MIME_TYPE;
 
                 break;
 
             case 'json':
-                $providerClass = JsonDataProvider::class;
+                $allowedMimeType = JsonDataProvider::VALID_MIME_TYPE;
 
                 break;
 
@@ -40,8 +41,8 @@ class SourceFileValidator implements SourceFileValidatorInterface
                 throw new InvalidSourceException(self::INVALID_EXTENSION_MESSAGE);
         }
 
-        $mimeType = mime_content_type($source);
+        $fileMimeType = mime_content_type($source);
 
-        Assert::equals($mimeType, $providerClass::VALID_MIME_TYPE, new InvalidSourceException(self::INVALID_MIME_TYPE_MESSAGE));
+        Assert::equals($fileMimeType, $allowedMimeType, new InvalidMimeTypeException(self::INVALID_MIME_TYPE_MESSAGE));
     }
 }
