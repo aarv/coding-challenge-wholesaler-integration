@@ -26,9 +26,9 @@ class SourceFileValidator implements SourceFileValidatorInterface
 
     public function isValidMimeType(string $source): void
     {
-        match (pathinfo($source, PATHINFO_EXTENSION)) {
-            'csv' => $allowedMimeType = CsvDataProvider::VALID_MIME_TYPE,
-            'json' => $allowedMimeType = JsonDataProvider::VALID_MIME_TYPE,
+        $allowedMimeType = match (pathinfo($source, PATHINFO_EXTENSION)) {
+            'csv' => CsvDataProvider::VALID_MIME_TYPE,
+            'json' => JsonDataProvider::VALID_MIME_TYPE,
             default => throw new InvalidSourceException(self::INVALID_EXTENSION_MESSAGE)
         };
 

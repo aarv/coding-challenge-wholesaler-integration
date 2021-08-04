@@ -38,7 +38,7 @@ class AssortmentService
     {
         $extension = pathinfo($source, PATHINFO_EXTENSION);
 
-        return match ($extension){
+        return match ($extension) {
             'csv' => new CsvDataProvider($source, $this->logger),
             'json' => new JsonDataProvider($source, $this->logger),
             default => throw new InvalidSourceException(SourceFileValidatorInterface::INVALID_EXTENSION_MESSAGE)
