@@ -88,14 +88,10 @@ class CsvDataProvider extends BaseDataProvider implements DataProviderInterface
     {
         $unit = substr($value, -1);
 
-        if ($unit === self::UNIT_TYPE_LITER) {
-            return new BaseProductUnit(unit: BaseProductUnit::UNIT_LITER);
-        }
-
-        if ($unit === self::UNIT_TYPE_GRAM) {
-            return new BaseProductUnit(unit: BaseProductUnit::UNIT_GRAM);
-        }
-
-        throw new InvalidDataException(sprintf('Invalid Base Product Unit %s', $value));
+        return match (true) {
+            $unit === self::UNIT_TYPE_LITER => new BaseProductUnit(unit: BaseProductUnit::UNIT_LITER),
+            $unit === self::UNIT_TYPE_GRAM => new BaseProductUnit(unit: BaseProductUnit::UNIT_GRAM),
+            default => throw new InvalidDataException(sprintf('Invalid Base Product Unit %s', $value))
+        };
     }
 }

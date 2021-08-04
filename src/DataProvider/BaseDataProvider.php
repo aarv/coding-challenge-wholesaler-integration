@@ -19,31 +19,20 @@ class BaseDataProvider
 
     protected function getPackaging(string $value, string $caller): Packaging
     {
-        if (str_starts_with(strtoupper($value), $caller::PACKAGING_TYPE_CASE)) {
-            return new Packaging(type: Packaging::TYPE_CASE);
-        }
-
-        if (str_starts_with(strtoupper($value), $caller::PACKAGING_TYPE_BOX)) {
-            return new Packaging(type: Packaging::TYPE_BOX);
-        }
-
-        if (str_starts_with(strtoupper($value), $caller::PACKAGING_TYPE_BOTTLE)) {
-            return new Packaging(type: Packaging::TYPE_BOTTLE);
-        }
-
-        throw new InvalidDataException(sprintf('Invalid Packaging %s', $value));
+        return match (true) {
+            str_starts_with(strtoupper($value), $caller::PACKAGING_TYPE_CASE) => new Packaging(type: Packaging::TYPE_CASE),
+            str_starts_with(strtoupper($value), $caller::PACKAGING_TYPE_BOX) => new Packaging(type: Packaging::TYPE_BOX),
+            str_starts_with(strtoupper($value), $caller::PACKAGING_TYPE_BOTTLE) => new Packaging(type: Packaging::TYPE_BOTTLE),
+            default => throw new InvalidDataException(sprintf('Invalid Packaging %s', $value))
+        };
     }
 
     protected function getBaseProductPackaging(string $value, string $caller): BaseProductPackaging
     {
-        if (strtoupper($value) === $caller::BASE_PRODUCT_PACKAGING_TYPE_BOTTLE) {
-            return new BaseProductPackaging(type: BaseProductPackaging::TYPE_BOTTLE);
-        }
-
-        if (strtoupper($value) === $caller::BASE_PRODUCT_PACKAGING_TYPE_CAN) {
-            return new BaseProductPackaging(type: BaseProductPackaging::TYPE_CAN);
-        }
-
-        throw new InvalidDataException(sprintf('Invalid Base Product Packaging %s', $value));
+        return match (true) {
+            (strtoupper($value) === $caller::BASE_PRODUCT_PACKAGING_TYPE_BOTTLE) => new BaseProductPackaging(type: BaseProductPackaging::TYPE_BOTTLE),
+            (strtoupper($value) === $caller::BASE_PRODUCT_PACKAGING_TYPE_CAN) => new BaseProductPackaging(type: BaseProductPackaging::TYPE_CAN),
+            default => throw new InvalidDataException(sprintf('Invalid Base Product Packaging %s', $value))
+        };
     }
 }
