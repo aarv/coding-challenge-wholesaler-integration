@@ -38,16 +38,11 @@ class AssortmentService
     {
         $extension = pathinfo($source, PATHINFO_EXTENSION);
 
-        switch ($extension) {
-            case 'csv':
-                return new CsvDataProvider($source, $this->logger);
-
-            case 'json':
-                return new JsonDataProvider($source, $this->logger);
-
-            default:
-                throw new InvalidSourceException(SourceFileValidatorInterface::INVALID_EXTENSION_MESSAGE);
-        }
+        return match ($extension){
+            'csv' => new CsvDataProvider($source, $this->logger),
+            'json' => new JsonDataProvider($source, $this->logger),
+            default => throw new InvalidSourceException(SourceFileValidatorInterface::INVALID_EXTENSION_MESSAGE)
+        };
     }
 
     private function getJsonProducts(array $products): string
