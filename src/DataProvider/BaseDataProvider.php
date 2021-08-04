@@ -30,8 +30,8 @@ class BaseDataProvider
     protected function getBaseProductPackaging(string $value, string $caller): BaseProductPackaging
     {
         return match (true) {
-            (strtoupper($value) === $caller::BASE_PRODUCT_PACKAGING_TYPE_BOTTLE) => new BaseProductPackaging(type: BaseProductPackaging::TYPE_BOTTLE),
-            (strtoupper($value) === $caller::BASE_PRODUCT_PACKAGING_TYPE_CAN) => new BaseProductPackaging(type: BaseProductPackaging::TYPE_CAN),
+            strtoupper($value) === $caller::BASE_PRODUCT_PACKAGING_TYPE_BOTTLE => new BaseProductPackaging(type: BaseProductPackaging::TYPE_BOTTLE),
+            strtoupper($value) === $caller::BASE_PRODUCT_PACKAGING_TYPE_CAN => new BaseProductPackaging(type: BaseProductPackaging::TYPE_CAN),
             default => throw new InvalidDataException(sprintf('Invalid Base Product Packaging %s', $value))
         };
     }
